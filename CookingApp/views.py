@@ -30,6 +30,8 @@ def api_detail_recipe_view(request, pk):
 
 
 @api_view(['PUT'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def api_update_recipe_view(request, pk):
     try:
         recipe = Recipe.objects.get(id=pk)
@@ -47,13 +49,19 @@ def api_update_recipe_view(request, pk):
 
 
 @api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def api_delete_recipe_view(request, pk):
+    user_id = str(request.user.pk)
+
     try:
         recipe = Recipe.objects.get(id=pk)
     except Exception as e:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
+        if recipe.creator_id != user_id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         operation = recipe.delete()
         data = {}
         if operation:
@@ -67,6 +75,7 @@ def api_delete_recipe_view(request, pk):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def api_create_recipe_view(request):
+    request.data['creator_id'] = request.user.pk
     serializer = RecipeSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
