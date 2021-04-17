@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import api_create_recipe_view, api_detail_recipe_view, api_update_recipe_view, api_delete_recipe_view, \
-    RecipeCreateApi, RecipeGetApi
+    RecipeGetApi
 
 app_name = 'recipes'
 
