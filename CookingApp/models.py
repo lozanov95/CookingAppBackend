@@ -24,3 +24,4 @@ class Recipe(models.Model):
     difficulty = models.CharField(max_length=6, choices=DIFFICULTIES)
     image_url = models.URLField()
     created_time = models.DateTimeField(auto_now=True)
+    creator_id = models.CharField(max_length=10)
