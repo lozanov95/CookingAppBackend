@@ -33,12 +33,16 @@ def api_detail_recipe_view(request, pk):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def api_update_recipe_view(request, pk):
+    user_id = str(request.user.pk)
     try:
         recipe = Recipe.objects.get(id=pk)
     except Exception as e:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
+        if recipe.creator_id != user_id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        request.data['creator_id'] = user_id
         serializer = RecipeSerializer(recipe, data=request.data)
         data = {}
         if serializer.is_valid():
