@@ -1,17 +1,6 @@
 from django.db import models
 
 
-class Ingredient(models.Model):
-    name = models.CharField(max_length=40)
-    amount = models.IntegerField()
-    measurement_unit = models.CharField(max_length=10)
-
-
-class PreparationSteps(models.Model):
-    name = models.CharField(max_length=120)
-    needed_time = models.CharField(max_length=10)
-
-
 class Recipe(models.Model):
     DIFFICULTIES = (
         ('Easy', 'EASY'),
