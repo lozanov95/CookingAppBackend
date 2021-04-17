@@ -1,6 +1,10 @@
+from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from django.contrib.auth.models import User
+from .serializers import RegisterSerializer
 
 
 class CustomAuthToken(ObtainAuthToken):
@@ -14,3 +18,9 @@ class CustomAuthToken(ObtainAuthToken):
             'token': token.key,
             'user_id': user.pk
         })
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
