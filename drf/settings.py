@@ -18,12 +18,6 @@ import django_heroku
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(+ljc(k+ql5ca)9r&=(s)1#r9jktyyi1#jitl+9vjx2)^%dlm$'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
