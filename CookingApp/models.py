@@ -14,3 +14,6 @@ class Recipe(models.Model):
     image_url = models.URLField()
     created_time = models.DateTimeField(auto_now=True)
     creator_id = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f'{self.name} - {self.difficulty}'
