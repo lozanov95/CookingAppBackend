@@ -13,8 +13,14 @@ class RecipeCreateApi(generics.CreateAPIView):
 
 
 class RecipeGetApi(generics.ListAPIView):
-    queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all()
+        creator_id = self.request.query_params.get('creator_id')
+        if creator_id is not None:
+            queryset = queryset.filter(creator_id=creator_id)
+        return queryset
 
 
 @api_view(['GET'])
