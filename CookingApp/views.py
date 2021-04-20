@@ -102,9 +102,14 @@ def api_post_comment_view(request, recipe_id):
         serializer = CommentSerializer(comments, many=True)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
     else:
-        request.data['author_id'] = request.user.username
-        request.data['recipe'] = recipe_id
-        serializer = CommentSerializer(data=request.data)
+        comment = {}
+        if isinstance(request.data, str):
+            comment['content'] = request.data
+        else:
+            comment['content'] = request.data['content']
+        comment['author_id'] = request.user.username
+        comment['recipe'] = recipe_id
+        serializer = CommentSerializer(data=comment)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
