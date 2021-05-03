@@ -28,4 +28,4 @@ PUT /api/recipes/edit/:id - edits a recipe
 DELETE /api/recipes/delete/:id - deletes a recipe
 
 ### The application is hosted on the following link: https://cooking-app-backend-vasil-loz.herokuapp.com/api/recipes/
-### There is a  simple frontend that uses the functionality of this app on the following repo: https://github.com/lozanov95/CookingAppFrontend
+### There is a frontend application that uses this api - https://cooking-app-frontend-vasil-loz.herokuapp.com/ - repo https://github.com/lozanov95/CookingAppFrontendReactJS
