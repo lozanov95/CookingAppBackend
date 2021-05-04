@@ -67,11 +67,12 @@ def api_delete_recipe_view(request, pk):
 
     try:
         recipe = Recipe.objects.get(id=pk)
+        creator_id = str(recipe.creator_id.id)
     except Exception as e:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-        if recipe.creator_id != user_id:
+        if creator_id != user_id:
             return Response(status=status.HTTP_403_FORBIDDEN)
         operation = recipe.delete()
         data = {}
