@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import api_create_recipe_view, api_detail_recipe_view, api_update_recipe_view, api_delete_recipe_view, \
-    RecipeGetApi, api_post_comment_view
+    RecipeGetApi, api_get_comment_view, api_create_comment_view
 
 app_name = 'recipes'
 
@@ -14,5 +14,6 @@ urlpatterns = [
 
     # Comments
 
-    path('<int:recipe_id>/comments', api_post_comment_view)
+    path('<int:recipe_id>/comments', api_get_comment_view),
+    path('<int:recipe_id>/comments/create', api_create_comment_view)
 ]

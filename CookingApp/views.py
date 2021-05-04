@@ -95,24 +95,26 @@ def api_create_recipe_view(request):
     return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def api_post_comment_view(request, recipe_id):
-    if request.method == 'GET':
-        comments = Comment.objects.filter(recipe=recipe_id)
-        serializer = CommentSerializer(comments, many=True)
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+def api_create_comment_view(request, recipe_id):
+    comment = {}
+    if isinstance(request.data, str):
+        comment['content'] = request.data
     else:
-        comment = {}
-        if isinstance(request.data, str):
-            comment['content'] = request.data
-        else:
-            comment['content'] = request.data['content']
-        comment['author_id'] = request.user.username
-        comment['recipe'] = recipe_id
-        serializer = CommentSerializer(data=comment)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+        comment['content'] = request.data['content']
+    comment['author_id'] = request.user.username
+    comment['recipe'] = recipe_id
+    serializer = CommentSerializer(data=comment)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_201_CREATED)
+    return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
+
+@api_view(['GET'])
+def api_get_comment_view(request, recipe_id):
+    comments = Comment.objects.filter(recipe=recipe_id)
+    serializer = CommentSerializer(comments, many=True)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
