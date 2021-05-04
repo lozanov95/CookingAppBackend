@@ -42,11 +42,12 @@ def api_update_recipe_view(request, pk):
     user_id = str(request.user.pk)
     try:
         recipe = Recipe.objects.get(id=pk)
+        creator_id = str(recipe.creator_id.id)
     except Exception as e:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
-        if recipe.creator_id != user_id:
+        if creator_id != user_id:
             return Response(status=status.HTTP_403_FORBIDDEN)
         request.data['creator_id'] = user_id
         serializer = RecipeSerializer(recipe, data=request.data)
