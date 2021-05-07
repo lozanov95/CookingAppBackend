@@ -18,8 +18,11 @@ class RecipeGetApi(generics.ListAPIView):
     def get_queryset(self):
         queryset = Recipe.objects.all()
         creator_id = self.request.query_params.get('creator_id')
+        search = self.request.query_params.get('search')
         if creator_id is not None:
             queryset = queryset.filter(creator_id=creator_id)
+        if search is not None:
+            queryset = queryset.filter(name__contains=search)
         return queryset
 
 
