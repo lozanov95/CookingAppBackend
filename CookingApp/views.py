@@ -22,7 +22,7 @@ class RecipeGetApi(generics.ListAPIView):
         if creator_id is not None:
             queryset = queryset.filter(creator_id=creator_id)
         if search is not None:
-            queryset = queryset.filter(name__contains=search)
+            queryset = queryset.filter(name__icontains=search)
         return queryset
 
 
